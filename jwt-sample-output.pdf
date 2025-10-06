@@ -1,0 +1,32 @@
+JWT Token Refresh & Expiry - Sample Output
+
+1. Login Request
+   Request: POST http://localhost:8080/api/auth/login
+            Content-Type: application/json
+            {"username": "user", "password": "password"}
+   Response: {"accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey...", 
+              "refreshToken": "dXc1ZjE0N2Y4LWIzOTEtNDhkYS05MmVhLTBiN2M5ZjE3M2M3", 
+              "tokenType": "Bearer"}
+
+2. Access Protected API (Profile)
+   Request: GET http://localhost:8080/api/auth/profile
+            Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey...
+   Response: {"username": "user", "timestamp": "2023-09-26T12:45:32.102Z"}
+
+3. Expired Access Token
+   Request with expired token: GET http://localhost:8080/api/auth/profile
+   Response: {"error": "invalid token"}
+
+4. Refresh Token
+   Request: POST http://localhost:8080/api/auth/refresh
+            Content-Type: application/json
+            {"refreshToken": "dXc1ZjE0N2Y4LWIzOTEtNDhkYS05MmVhLTBiN2M5ZjE3M2M3"}
+   Response: {"accessToken": "SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c", 
+              "refreshToken": "dGVzdC0zMDc0MTktMTlhLTQxNGQ4LTc3ZjE=", 
+              "tokenType": "Bearer"}
+
+5. Frontend UI Output
+   On successful login and token handling the React UI displays:
+   Message: "username: user token(jwt token) 2023-09-26T12:45:32.102Z"
+   Access Token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey...
+   Refresh Token: dXc1ZjE0N2Y4LWIzOTEtNDhkYS05MmVhLTBiN2M5ZjE3M2M3
